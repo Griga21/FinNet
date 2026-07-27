@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -27,6 +28,16 @@ public class TransactionsServiceImpl implements TransactionService {
         transaction.setCreatedAt(Instant.now());
         transactionRepository.save(transaction);
         return transaction.getId();
+    }
+
+    @Override
+    public Transaction getTransactionById(Long id) {
+        return transactionRepository.findById(id).get();
+    }
+
+    @Override
+    public List<Transaction> getAllTransanctions() {
+        return transactionRepository.findAll();
     }
 
     @Override
