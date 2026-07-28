@@ -1,5 +1,6 @@
 package com.service;
 
+import com.entity.BankAccount;
 import com.entity.Transaction;
 import com.entity.TransactionType;
 import com.repository.TransactionRepository;
@@ -20,9 +21,9 @@ public class TransactionsServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public Long createTransaction() {
+    public Long createTransaction(BankAccount bankAccount) {
         Transaction transaction = new Transaction();
-        transaction.setAccountId(UUID.randomUUID());
+        transaction.setBankAccount(bankAccount);
         transaction.setAmount(new BigDecimal(1000));
         transaction.setType(TransactionType.WITHDRAWAL);
         transaction.setCreatedAt(Instant.now());

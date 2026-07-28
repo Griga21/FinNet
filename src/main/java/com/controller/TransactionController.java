@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.entity.BankAccount;
 import com.entity.Transaction;
 import com.service.TransactionService;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +15,8 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping("/create")
-    public void createTransaction(){
-        Long id = transactionService.createTransaction();
+    public void createTransaction(@RequestBody BankAccount bankAccount){
+        Long id = transactionService.createTransaction(bankAccount);
         System.out.println(id);
     }
 

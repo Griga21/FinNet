@@ -1,5 +1,8 @@
 package com.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -12,8 +15,12 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "ACCOUNT_ID")
-    private UUID accountId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id", nullable = false)
+    @JsonIgnore
+    private BankAccount bankAccount;
+
     @Column(name = "TYPE")
     private Integer type;
     @Column(name = "AMOUNT")
@@ -25,12 +32,12 @@ public class Transaction {
         return id;
     }
 
-    public UUID getAccountId() {
-        return accountId;
+    public BankAccount getBankAccount() {
+        return bankAccount;
     }
 
-    public void setAccountId(UUID accountId) {
-        this.accountId = accountId;
+    public void setBankAccount(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
     public TransactionType getType() {
