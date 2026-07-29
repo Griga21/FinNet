@@ -3,8 +3,17 @@ package com.dto;
 import java.math.BigDecimal;
 
 public class BankAccountDTO {
+    private final Long id;
     private BigDecimal accountBalance;
     private String accountNumber;
+
+    public BankAccountDTO(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
 
     public BigDecimal getAccountBalance() {
         return accountBalance;

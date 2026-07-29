@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.dto.BankAccountDTO;
 import com.entity.BankAccount;
 import com.entity.Transaction;
 import com.service.TransactionService;
@@ -22,12 +23,12 @@ public class BankAccountController {
     }
 
     @GetMapping("/get")
-    public BankAccount getBankAccountById(@RequestParam("id") Long id){
+    public BankAccountDTO getBankAccountById(@RequestParam("id") Long id){
         return bankAccountService.getBankAccountById(id);
     }
 
     @GetMapping("/getAll")
-    public List<BankAccount> getAllBankAccount(){
+    public List<BankAccountDTO> getAllBankAccount(){
         return bankAccountService.getAllBankAccount();
     }
 

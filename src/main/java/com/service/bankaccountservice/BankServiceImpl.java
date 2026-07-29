@@ -1,7 +1,12 @@
 package com.service.bankaccountservice;
 
+import com.dto.BankAccountDTO;
 import com.entity.BankAccount;
+import com.mapper.BankAccountMapperI;
+import com.mapper.BankDeviceMapper;
 import com.repository.BankAccountRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BankServiceImpl implements BankAccountService {
     private final BankAccountRepository bankAccountRepository;
+    private final BankAccountMapperI bankDeviceMapper;
 
     @Override
     @Transactional
@@ -26,13 +32,17 @@ public class BankServiceImpl implements BankAccountService {
     }
 
     @Override
-    public BankAccount getBankAccountById(Long id) {
-        return bankAccountRepository.findById(id).get();
+    public BankAccountDTO getBankAccountById(Long id) {
+        BankAccount bankAccount = bankAccountRepository.findById(id).get();
+        BankAccountDTO bankAccountDTO = bankDeviceMapper.fromBankAccountToDto(bankAccount);
+        return bankAccountDTO;
     }
 
     @Override
-    public List<BankAccount> getAllBankAccount() {
-        return bankAccountRepository.findAll();
+    public List<BankAccountDTO> getAllBankAccount() {
+        List<BankAccount> bankAccountList = bankAccountRepository.findAll();
+        List<BankAccountDTO> bankAccountDTOList = bankDeviceMapper.fromListBankAccountToDto(bankAccountList);
+        return bankAccountDTOList;
     }
 
     @Override
