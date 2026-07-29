@@ -1,12 +1,13 @@
 CREATE TABLE IF NOT EXISTS bank_account (
     id BIGSERIAL PRIMARY KEY,
     account_balance NUMERIC(15, 2) NOT NULL DEFAULT 0,
+    account_number VARCHAR NOT NULL UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS transactions (
     id BIGSERIAL PRIMARY KEY,
-    account_id BIGINT NOT NULL,
+    account_id BIGINT  NOT NULL,
     amount NUMERIC(15, 2) NOT NULL CHECK (amount >= 0),
     type INTEGER NOT NULL,
     status VARCHAR(20) DEFAULT 'PENDING',

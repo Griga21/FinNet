@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class BankServiceImpl implements BankAccountService {
     public Long createBankAccount() {
         BankAccount bankAccount = new BankAccount();
         bankAccount.setAccountBalance(new BigDecimal(0));
+        bankAccount.setAccountNumber(UUID.randomUUID().toString());
         bankAccountRepository.save(bankAccount);
         return bankAccount.getId();
     }

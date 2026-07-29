@@ -17,6 +17,9 @@ public class BankAccount {
     @Column(name = "accountBalance")
     private BigDecimal accountBalance;
 
+    @Column(name = "account_number", nullable = false, unique = true, length = 20)
+    private String accountNumber;
+
     @OneToMany(mappedBy = "bankAccount",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
@@ -34,5 +37,13 @@ public class BankAccount {
 
     public void setAccountBalance(BigDecimal accountBalance) {
         this.accountBalance = accountBalance;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 }
