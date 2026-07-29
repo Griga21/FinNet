@@ -5,7 +5,9 @@ import org.hibernate.annotations.CollectionId;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -27,6 +29,12 @@ public class BankAccount {
     @JsonIgnore
     private List<Transaction> transactions = new ArrayList<>();
 
+    @Column(name = "active", nullable = false)
+    private Boolean isActive;
+
+    @Column(name = "CREATED_AT")
+    private Instant createdAt;
+
     public Long getId() {
         return id;
     }
@@ -45,5 +53,21 @@ public class BankAccount {
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 }

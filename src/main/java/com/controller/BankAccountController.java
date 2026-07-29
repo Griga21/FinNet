@@ -1,9 +1,7 @@
 package com.controller;
 
-import com.dto.BankAccountDTO;
-import com.entity.BankAccount;
-import com.entity.Transaction;
-import com.service.TransactionService;
+import com.dto.BankAccountResponse;
+import com.dto.CreateBankAccountRequest;
 import com.service.bankaccountservice.BankAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,18 +15,18 @@ public class BankAccountController {
     private final BankAccountService bankAccountService;
 
     @PostMapping("/create")
-    public void createBankAccount(){
-        Long id = bankAccountService.createBankAccount();
+    public void createBankAccount(@RequestBody CreateBankAccountRequest сreateBankAccountRequest) {
+        BankAccountResponse id = bankAccountService.createBankAccount(сreateBankAccountRequest);
         System.out.println(id);
     }
 
     @GetMapping("/get")
-    public BankAccountDTO getBankAccountById(@RequestParam("id") Long id){
+    public BankAccountResponse getBankAccountById(@RequestParam("id") Long id) {
         return bankAccountService.getBankAccountById(id);
     }
 
     @GetMapping("/getAll")
-    public List<BankAccountDTO> getAllBankAccount(){
+    public List<BankAccountResponse> getAllBankAccount() {
         return bankAccountService.getAllBankAccount();
     }
 
