@@ -11,4 +11,5 @@ import java.math.BigDecimal;
 public class CreateBankAccountRequest {
     private String accountNumber;
     private BigDecimal accountBalance;
+    private Boolean isActive;
 }
