@@ -45,6 +45,9 @@ public class BankAccountServiceImpl implements BankAccountService {
     @Override
     @Transactional
     public Long deleteBankAccountById(Long id) {
+        if (!bankAccountRepository.existsById(id)) {
+            throw new BackAccountNotFoundException();
+        }
         bankAccountRepository.deleteById(id);
         return id;
     }

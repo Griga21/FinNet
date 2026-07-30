@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinNet — API Console</title>
+    <style>
+        :root { --ink:#172033; --muted:#637085; --line:#dbe2ec; --surface:#fff; --page:#f4f7fb; --accent:#2363eb; --accent-soft:#eaf0ff; --danger:#b42318; --success:#067647; }
+        * { box-sizing:border-box; }
+        body { margin:0; font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:var(--ink); background:var(--page); }
+        header { background:#172033; color:white; padding:36px max(24px, calc((100% - 1120px) / 2)); }
+        header h1 { margin:0 0 8px; font-size:28px; }
+        header p { margin:0; color:#c6d1e4; }
+        main { max-width:1120px; margin:0 auto; padding:28px 24px 48px; }
+        .intro { margin:0 0 24px; color:var(--muted); }
+        .controller { margin:28px 0; }
+        .controller-head { display:flex; align-items:baseline; gap:12px; margin-bottom:12px; }
+        h2 { font-size:20px; margin:0; }
+        .base-path { font:13px ui-monospace, SFMono-Regular, Menlo, monospace; color:var(--accent); background:var(--accent-soft); padding:4px 8px; border-radius:5px; }
+        .grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:16px; }
+        .card { background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:18px; box-shadow:0 2px 8px rgba(23,32,51,.04); }
+        .card.wide { grid-column:1 / -1; }
+        .route { display:flex; align-items:center; gap:8px; margin-bottom:13px; flex-wrap:wrap; }
+        .method { color:white; font-size:11px; font-weight:700; padding:4px 7px; border-radius:4px; letter-spacing:.04em; }
+        .get { background:#0f766e; } .post { background:#2363eb; } .delete { background:#b42318; }
+        code { font-size:13px; color:#263651; }
+        form { display:grid; gap:10px; }
+        label { display:grid; gap:5px; font-size:13px; color:var(--muted); }
+        input, select { width:100%; border:1px solid var(--line); border-radius:6px; padding:9px 10px; font:inherit; color:var(--ink); background:white; }
+        button { justify-self:start; border:0; border-radius:6px; background:var(--accent); color:white; padding:9px 13px; font:600 13px inherit; cursor:pointer; }
+        button:hover { background:#174fc3; }
+        .result { margin:14px 0 0; min-height:44px; border-radius:6px; padding:10px; background:#f8fafc; color:var(--muted); overflow:auto; white-space:pre-wrap; font:12px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; }
+        .result.ok { color:var(--success); background:#ecfdf3; } .result.error { color:var(--danger); background:#fef3f2; }
+        .hint { margin:0 0 12px; color:var(--muted); font-size:13px; }
+        .two-fields { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+        @media (max-width:700px) { .grid { grid-template-columns:1fr; } .card.wide { grid-column:auto; } .two-fields { grid-template-columns:1fr; } header { padding:28px 20px; } main { padding:22px 16px; } }
+    </style>
+</head>
+<body>
+<header>
+    <h1>FinNet API Console</h1>
+    <p>Визуальный интерфейс для всех методов существующих контроллеров.</p>
+</header>
+<main>
+    <p class="intro">Запустите Spring Boot-приложение и откройте <code>http://localhost:8080/</code>. Экран обращается к тем же API-маршрутам, без изменения их логики.</p>
+
+    <section class="controller">
+        <div class="controller-head"><h2>BankAccountController</h2><span class="base-path">/bankAccount</span></div>
+        <div class="grid">
+            <article class="card">
+                <div class="route"><span class="method post">POST</span><code>/create</code></div>
+                <form data-method="POST" data-path="/bankAccount/create" data-body="account-create">
+                    <label>Номер счёта<input name="accountNumber" required placeholder="ACC-001"></label>
+                    <div class="two-fields">
+                        <label>Баланс<input name="accountBalance" type="number" step="0.01" required placeholder="1000.00"></label>
+                        <label>Активен<select name="isActive"><option value="true">Да</option><option value="false">Нет</option></select></label>
+                    </div>
+                    <button>Создать счёт</button>
+                </form>
+                <pre class="result">Ожидание запроса</pre>
+            </article>
+            <article class="card">
+                <div class="route"><span class="method get">GET</span><code>/get?id={id}</code></div>
+                <form data-method="GET" data-path="/bankAccount/get" data-query="id"><label>ID счёта<input name="id" type="number" required placeholder="1"></label><button>Получить счёт</button></form>
+                <pre class="result">Ожидание запроса</pre>
+            </article>
+            <article class="card">
+                <div class="route"><span class="method get">GET</span><code>/getAll</code></div>
+                <p class="hint">Возвращает список всех банковских счетов.</p>
+                <form data-method="GET" data-path="/bankAccount/getAll"><button>Получить все счета</button></form>
+                <pre class="result">Ожидание запроса</pre>
+            </article>
+            <article class="card">
+                <div class="route"><span class="method delete">DELETE</span><code>/deleteById?id={id}</code></div>
+                <form data-method="DELETE" data-path="/bankAccount/deleteById" data-query="id"><label>ID счёта<input name="id" type="number" required placeholder="1"></label><button>Удалить счёт</button></form>
+                <pre class="result">Ожидание запроса</pre>
+            </article>
+        </div>
+    </section>
+
+    <section class="controller">
+        <div class="controller-head"><h2>TransactionController</h2><span class="base-path">/transactions</span></div>
+        <div class="grid">
+            <article class="card">
+                <div class="route"><span class="method post">POST</span><code>/create</code></div>
+                <p class="hint">Контроллер принимает объект <code>BankAccount</code>; сервис создаёт списание на 1000.</p>
+                <form data-method="POST" data-path="/transactions/create" data-body="transaction-create">
+                    <label>ID существующего счёта<input name="id" type="number" required placeholder="1"></label>
+                    <label>Номер счёта<input name="accountNumber" required placeholder="ACC-001"></label>
+                    <label>Баланс счёта<input name="accountBalance" type="number" step="0.01" required placeholder="2500.00"></label>
+                    <label>Активен<select name="isActive"><option value="true">Да</option><option value="false">Нет</option></select></label>
+                    <button>Создать транзакцию</button>
+                </form>
+                <pre class="result">Ожидание запроса</pre>
+            </article>
+            <article class="card">
+                <div class="route"><span class="method get">GET</span><code>/get?id={id}</code></div>
+                <form data-method="GET" data-path="/transactions/get" data-query="id"><label>ID транзакции<input name="id" type="number" required placeholder="1"></label><button>Получить транзакцию</button></form>
+                <pre class="result">Ожидание запроса</pre>
+            </article>
+            <article class="card">
+                <div class="route"><span class="method get">GET</span><code>/getAll</code></div>
+                <p class="hint">Возвращает список всех транзакций.</p>
+                <form data-method="GET" data-path="/transactions/getAll"><button>Получить все транзакции</button></form>
+                <pre class="result">Ожидание запроса</pre>
+            </article>
+            <article class="card">
+                <div class="route"><span class="method delete">DELETE</span><code>/deleteById?id={id}</code></div>
+                <form data-method="DELETE" data-path="/transactions/deleteById" data-query="id"><label>ID транзакции<input name="id" type="number" required placeholder="1"></label><button>Удалить транзакцию</button></form>
+                <pre class="result">Ожидание запроса</pre>
+            </article>
+            <article class="card wide">
+                <div class="route"><span class="method get">GET</span><code>/test</code></div>
+                <p class="hint">Проверочный маршрут контроллера.</p>
+                <form data-method="GET" data-path="/transactions/test"><button>Проверить контроллер</button></form>
+                <pre class="result">Ожидание запроса</pre>
+            </article>
+        </div>
+    </section>
+</main>
+<script>
+    const toValue = (form, name) => form.elements[name].value;
+    const render = async (form) => {
+        const result = form.parentElement.querySelector('.result');
+        const method = form.dataset.method;
+        let url = form.dataset.path;
+        if (form.dataset.query) url += '?' + new URLSearchParams({ [form.dataset.query]: toValue(form, form.dataset.query) });
+        const options = { method, headers: {} };
+        if (form.dataset.body === 'account-create') {
+            options.headers['Content-Type'] = 'application/json';
+            options.body = JSON.stringify({ accountNumber: toValue(form, 'accountNumber'), accountBalance: Number(toValue(form, 'accountBalance')), isActive: toValue(form, 'isActive') === 'true' });
+        }
+        if (form.dataset.body === 'transaction-create') {
+            options.headers['Content-Type'] = 'application/json';
+            options.body = JSON.stringify({ id: Number(toValue(form, 'id')), accountNumber: toValue(form, 'accountNumber'), accountBalance: Number(toValue(form, 'accountBalance')), isActive: toValue(form, 'isActive') === 'true' });
+        }
+        result.className = 'result'; result.textContent = 'Выполняется ' + method + ' ' + url;
+        try {
+            const response = await fetch(url, options);
+            const contentType = response.headers.get('content-type') || '';
+            const body = contentType.includes('application/json') ? JSON.stringify(await response.json(), null, 2) : (await response.text() || 'Успешно: ответ без тела');
+            result.className = 'result ' + (response.ok ? 'ok' : 'error');
+            result.textContent = response.status + ' ' + response.statusText + '\n' + body;
+        } catch (error) { result.className = 'result error'; result.textContent = 'Сетевая ошибка: ' + error.message; }
+    };
+    document.querySelectorAll('form').forEach(form => form.addEventListener('submit', event => { event.preventDefault(); render(form); }));
+</script>
+</body>
+</html>
