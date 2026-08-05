@@ -1,24 +1,19 @@
 package com.service;
 
-import com.dto.BankAccountResponse;
-import com.dto.CreateBankAccountRequest;
 import com.dto.CreateTransactionRequest;
 import com.entity.BankAccount;
 import com.entity.Transaction;
-import com.entity.TransactionType;
-import com.mapper.BankAccountMapper;
 import com.repository.BankAccountRepository;
 import com.repository.TransactionRepository;
-import com.service.bankaccountservice.BankAccountService;
+import com.service.bankOperations.TransactionValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.login.AccountNotFoundException;
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
+
+import static com.entity.TransactionStatus.PENDING;
 
 @Service
 @RequiredArgsConstructor
@@ -26,10 +21,13 @@ public class TransactionsServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final BankAccountRepository bankAccountRepository;
+    private final TransactionValidationService transactionValidationService;
+
     @Override
     @Transactional
     public Long createTransaction(CreateTransactionRequest request) {
         Transaction transaction = new Transaction();
+        transaction.setStatus(PENDING);
         transaction.setAmount(request.getAmount());
         transaction.setType(request.getType());
         transaction.setCreatedAt(Instant.now());
@@ -38,6 +36,7 @@ public class TransactionsServiceImpl implements TransactionService {
 
         BankAccount toAccount = bankAccountRepository
                 .findById(request.getToAccountId()).get();
+        transactionValidationService.checkTransferEligibility(fromAccount, toAccount, request.getAmount());
         transaction.setBankAccountFrom(fromAccount);
         transaction.setBankAccountTo(toAccount);
         transactionRepository.save(transaction);

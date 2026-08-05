@@ -32,6 +32,8 @@ public class Transaction {
     private BigDecimal amount;
     @Column(name = "CREATED_AT")
     private Instant createdAt;
+    @Column(name = "STATUS")
+    private Integer status;
 
     public Long getId() {
         return id;
@@ -75,5 +77,13 @@ public class Transaction {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public TransactionStatus getStatus() {
+        return TransactionStatus.fromCode(status);
+    }
+
+    public void setStatus(TransactionStatus status) {
+        this.status = status.getCode();
     }
 }

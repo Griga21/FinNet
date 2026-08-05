@@ -12,8 +12,8 @@ CREATE TABLE IF NOT EXISTS transactions (
     account_to_id BIGINT  NOT NULL,
     amount NUMERIC(15, 2) NOT NULL CHECK (amount >= 0),
     type INTEGER NOT NULL,
-    status VARCHAR(20) DEFAULT 'PENDING',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status INTEGER NOT NULL,
 
 CONSTRAINT fk_transactions_account_from
     FOREIGN KEY (account_from_id)
