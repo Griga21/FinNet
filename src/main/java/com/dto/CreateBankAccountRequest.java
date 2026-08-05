@@ -1,5 +1,6 @@
 package com.dto;
 
+import com.entity.AccountStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,5 +12,5 @@ import java.math.BigDecimal;
 public class CreateBankAccountRequest {
     private String accountNumber;
     private BigDecimal accountBalance;
-    private Boolean isActive;
+    private AccountStatus status;
 }

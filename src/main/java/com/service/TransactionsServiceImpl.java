@@ -1,12 +1,19 @@
 package com.service;
 
+import com.dto.BankAccountResponse;
+import com.dto.CreateBankAccountRequest;
+import com.dto.CreateTransactionRequest;
 import com.entity.BankAccount;
 import com.entity.Transaction;
 import com.entity.TransactionType;
+import com.mapper.BankAccountMapper;
+import com.repository.BankAccountRepository;
 import com.repository.TransactionRepository;
+import com.service.bankaccountservice.BankAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.security.auth.login.AccountNotFoundException;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -18,15 +25,21 @@ import java.util.UUID;
 public class TransactionsServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
-
+    private final BankAccountRepository bankAccountRepository;
     @Override
     @Transactional
-    public Long createTransaction(BankAccount bankAccount) {
+    public Long createTransaction(CreateTransactionRequest request) {
         Transaction transaction = new Transaction();
-        transaction.setBankAccount(bankAccount);
-        transaction.setAmount(new BigDecimal(1000));
-        transaction.setType(TransactionType.WITHDRAWAL);
+        transaction.setAmount(request.getAmount());
+        transaction.setType(request.getType());
         transaction.setCreatedAt(Instant.now());
+        BankAccount fromAccount = bankAccountRepository
+                .findById(request.getFromAccountId()).get();
+
+        BankAccount toAccount = bankAccountRepository
+                .findById(request.getToAccountId()).get();
+        transaction.setBankAccountFrom(fromAccount);
+        transaction.setBankAccountTo(toAccount);
         transactionRepository.save(transaction);
         return transaction.getId();
     }

@@ -17,9 +17,14 @@ public class Transaction {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id", nullable = false)
+    @JoinColumn(name = "account_from_id", nullable = false)
     @JsonIgnore
-    private BankAccount bankAccount;
+    private BankAccount bankAccountFrom;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_to_id", nullable = false)
+    @JsonIgnore
+    private BankAccount bankAccountTo;
 
     @Column(name = "TYPE")
     private Integer type;
@@ -32,12 +37,20 @@ public class Transaction {
         return id;
     }
 
-    public BankAccount getBankAccount() {
-        return bankAccount;
+    public BankAccount getBankAccountFrom() {
+        return bankAccountFrom;
     }
 
-    public void setBankAccount(BankAccount bankAccount) {
-        this.bankAccount = bankAccount;
+    public void setBankAccountFrom(BankAccount bankAccountFrom) {
+        this.bankAccountFrom = bankAccountFrom;
+    }
+
+    public BankAccount getBankAccountTo() {
+        return bankAccountTo;
+    }
+
+    public void setBankAccountTo(BankAccount bankAccountTo) {
+        this.bankAccountTo = bankAccountTo;
     }
 
     public TransactionType getType() {

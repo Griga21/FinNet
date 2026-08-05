@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.dto.CreateTransactionRequest;
 import com.entity.BankAccount;
 import com.entity.Transaction;
 import com.service.TransactionService;
@@ -15,8 +16,8 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping("/create")
-    public void createTransaction(@RequestBody BankAccount bankAccount){
-        Long id = transactionService.createTransaction(bankAccount);
+    public void createTransaction(@RequestBody CreateTransactionRequest request){
+        Long id = transactionService.createTransaction(request);
         System.out.println(id);
     }
 

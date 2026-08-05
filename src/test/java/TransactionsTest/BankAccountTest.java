@@ -3,6 +3,7 @@ package TransactionsTest;
 import com.Main;
 import com.dto.BankAccountResponse;
 import com.dto.CreateBankAccountRequest;
+import com.entity.AccountStatus;
 import com.entity.BankAccount;
 import com.mapper.BankAccountMapper;
 import com.repository.BankAccountRepository;
@@ -47,17 +48,17 @@ public class BankAccountTest {
         request = new CreateBankAccountRequest();
         request.setAccountNumber("1234567890");
         request.setAccountBalance(BigDecimal.valueOf(1000.50));
-        request.setIsActive(true);
+        request.setStatus(AccountStatus.ACTIVE);
 
         bankAccount = new BankAccount();
         bankAccount.setAccountNumber("1234567890");
         bankAccount.setAccountBalance(BigDecimal.valueOf(1000.50));
-        bankAccount.setIsActive(true);
+        bankAccount.setStatus(AccountStatus.ACTIVE);
 
         savedAccount = new BankAccount();
         savedAccount.setAccountNumber("1234567890");
         savedAccount.setAccountBalance(BigDecimal.valueOf(1000.50));
-        savedAccount.setIsActive(true);
+        savedAccount.setStatus(AccountStatus.ACTIVE);
         savedAccount.setCreatedAt(Instant.now());
 
         response = new BankAccountResponse();
