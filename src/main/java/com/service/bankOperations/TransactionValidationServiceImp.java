@@ -3,6 +3,7 @@ package com.service.bankOperations;
 import com.dto.BankAccountResponse;
 import com.entity.AccountStatus;
 import com.entity.BankAccount;
+import com.entity.TransactionStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -19,4 +20,6 @@ public class TransactionValidationServiceImp implements TransactionValidationSer
         }
         return true;
     }
+
+
 }
