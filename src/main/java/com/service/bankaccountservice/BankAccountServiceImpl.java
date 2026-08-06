@@ -30,10 +30,15 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public BankAccountResponse getBankAccountById(Long id) {
+    public BankAccountResponse getBankAccountResponseById(Long id) {
+        return null;
+    }
+
+    @Override
+    public BankAccount getBankAccountById(Long id) {
         BankAccount entity = bankAccountRepository.findById(id)
                 .orElseThrow(() -> new BackAccountNotFoundException());
-        return bankAccountMapper.toResponse(entity);
+        return entity;
     }
 
     @Override

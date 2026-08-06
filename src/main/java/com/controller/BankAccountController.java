@@ -22,7 +22,7 @@ public class BankAccountController {
 
     @GetMapping("/get")
     public BankAccountResponse getBankAccountById(@RequestParam("id") Long id) {
-        return bankAccountService.getBankAccountById(id);
+        return bankAccountService.getBankAccountResponseById(id);
     }
 
     @GetMapping("/getAll")
