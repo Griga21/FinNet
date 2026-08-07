@@ -1,9 +1,8 @@
 package com.controller;
 
 import com.dto.CreateTransactionRequest;
-import com.entity.BankAccount;
 import com.entity.Transaction;
-import com.service.TransactionService;
+import com.service.transactions.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

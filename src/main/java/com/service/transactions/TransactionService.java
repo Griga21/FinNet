@@ -1,4 +1,4 @@
-package com.service;
+package com.service.transactions;
 
 import com.dto.CreateTransactionRequest;
 import com.entity.BankAccount;
@@ -12,4 +12,5 @@ public interface TransactionService {
     Transaction getTransactionById(Long id);
     List<Transaction> getAllTransanctions();
     Long deleteTransactionById(Long id);
+    List<Transaction> getAllTransationFromAccountByID(Long accountId);
 }

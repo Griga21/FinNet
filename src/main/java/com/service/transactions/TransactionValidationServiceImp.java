@@ -1,9 +1,7 @@
-package com.service.bankOperations;
+package com.service.transactions;
 
-import com.dto.BankAccountResponse;
 import com.entity.AccountStatus;
 import com.entity.BankAccount;
-import com.entity.TransactionStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

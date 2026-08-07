@@ -2,6 +2,8 @@ package com.controller;
 
 import com.dto.BankAccountResponse;
 import com.dto.CreateBankAccountRequest;
+import com.entity.Transaction;
+import com.service.bankOperations.AccountHistoryService;
 import com.service.bankaccountservice.BankAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,11 @@ public class BankAccountController {
     @GetMapping("/get")
     public BankAccountResponse getBankAccountById(@RequestParam("id") Long id) {
         return bankAccountService.getBankAccountResponseById(id);
+    }
+
+    @GetMapping("/getAllAccountTransaction")
+    public List<Transaction> getAllTransactionAccountById(@RequestParam("id") Long id){
+        return bankAccountService.getAlLAccountTransactionById(id);
     }
 
     @GetMapping("/getAll")

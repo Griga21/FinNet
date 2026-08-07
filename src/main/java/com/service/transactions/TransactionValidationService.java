@@ -1,4 +1,4 @@
-package com.service.bankOperations;
+package com.service.transactions;
 
 import com.entity.BankAccount;
 import com.entity.TransactionStatus;

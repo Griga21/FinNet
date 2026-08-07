@@ -1,14 +1,10 @@
-package com.service;
+package com.service.transactions;
 
-import com.dto.BankAccountResponse;
 import com.dto.CreateTransactionRequest;
 import com.entity.BankAccount;
 import com.entity.Transaction;
 import com.entity.TransactionStatus;
-import com.mapper.BankAccountMapper;
-import com.repository.BankAccountRepository;
 import com.repository.TransactionRepository;
-import com.service.bankOperations.TransactionValidationService;
 import com.service.bankOperations.TransferService;
 import com.service.bankaccountservice.BankAccountService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.List;
-
-import static com.entity.TransactionStatus.PENDING;
 
 @Service
 @RequiredArgsConstructor
@@ -36,9 +30,9 @@ public class TransactionsServiceImpl implements TransactionService {
         BankAccount toAccount = bankAccountService.getBankAccountById(request.getToAccountId());
         Transaction transaction = new Transaction();
         transaction.setStatus(TransactionStatus.PROCESSING);
-        if (transactionValidationService.checkTransferEligibility(fromAccount, toAccount, request.getAmount())){
+        if (transactionValidationService.checkTransferEligibility(fromAccount, toAccount, request.getAmount())) {
             transaction.setStatus(TransferService.transferFunds(fromAccount, toAccount, request.getAmount()));
-        }else{
+        } else {
             transaction.setStatus(TransactionStatus.DECLINED);
         }
         transaction.setAmount(request.getAmount());
@@ -65,5 +59,11 @@ public class TransactionsServiceImpl implements TransactionService {
     public Long deleteTransactionById(Long id) {
         transactionRepository.deleteById(id);
         return id;
+    }
+
+    @Override
+    public List<Transaction> getAllTransationFromAccountByID(Long accountId) {
+        List<Transaction> transactionList = transactionRepository.findAllByAccountIdAndStatus(accountId, 30);
+        return transactionList;
     }
 }

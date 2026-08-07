@@ -3,10 +3,13 @@ package com.service.bankaccountservice;
 import com.dto.BankAccountResponse;
 import com.dto.CreateBankAccountRequest;
 import com.entity.BankAccount;
+import com.entity.Transaction;
 import com.exceptions.BackAccountNotFoundException;
 import com.exceptions.BankAccountIsAlreadyExist;
 import com.mapper.BankAccountMapper;
 import com.repository.BankAccountRepository;
+import com.service.bankOperations.AccountHistoryService;
+import com.service.transactions.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,7 @@ import java.util.List;
 public class BankAccountServiceImpl implements BankAccountService {
     private final BankAccountRepository bankAccountRepository;
     private final BankAccountMapper bankAccountMapper;
+    private final AccountHistoryService accountHistoryService;
 
     @Override
     @Transactional
@@ -59,5 +63,10 @@ public class BankAccountServiceImpl implements BankAccountService {
         }
         bankAccountRepository.deleteById(id);
         return id;
+    }
+
+    @Override
+    public List<Transaction> getAlLAccountTransactionById(Long accountID) {
+        return accountHistoryService.getAccountTransactionById(accountID);
     }
 }
