@@ -31,7 +31,11 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public BankAccountResponse getBankAccountResponseById(Long id) {
-        return null;
+        if (!bankAccountRepository.existsById(id)){
+            throw new BackAccountNotFoundException();
+        }
+        BankAccount bankAccount = bankAccountRepository.getById(id);
+        return bankAccountMapper.toResponse(bankAccount);
     }
 
     @Override

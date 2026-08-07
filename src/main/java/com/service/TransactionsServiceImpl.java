@@ -28,7 +28,6 @@ public class TransactionsServiceImpl implements TransactionService {
     private final BankAccountService bankAccountService;
     private final TransactionValidationService transactionValidationService;
     private final TransferService TransferService;
-    private final BankAccountMapper bankAccountMapper;
 
     @Override
     @Transactional
@@ -38,9 +37,9 @@ public class TransactionsServiceImpl implements TransactionService {
         Transaction transaction = new Transaction();
         transaction.setStatus(TransactionStatus.PROCESSING);
         if (transactionValidationService.checkTransferEligibility(fromAccount, toAccount, request.getAmount())){
-            transaction.setStatus(TransactionStatus.DECLINED);
-        }else{
             transaction.setStatus(TransferService.transferFunds(fromAccount, toAccount, request.getAmount()));
+        }else{
+            transaction.setStatus(TransactionStatus.DECLINED);
         }
         transaction.setAmount(request.getAmount());
         transaction.setType(request.getType());
